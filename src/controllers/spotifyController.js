@@ -53,6 +53,10 @@ exports.getLastPlayedSongs = async (req, res) => {
 
     const [latestSong, ...previousSongs] = spotifyResponse.data.items;
 
+    const getAlbumImageUrl = (album) => {
+      return album.images.length > 0 ? album.images[0].url : null;
+    };
+
     const response = {
       currently_playing_song: lanyardData ? {
         flags: lanyardData.flags,
@@ -73,12 +77,14 @@ exports.getLastPlayedSongs = async (req, res) => {
         artist: latestSong.track.artists.map(artist => artist.name).join(', '),
         album: latestSong.track.album.name,
         played_at: latestSong.played_at,
+        image_url: getAlbumImageUrl(latestSong.track.album),
       },
       previous_songs: previousSongs.map(item => ({
         song: item.track.name,
         artist: item.track.artists.map(artist => artist.name).join(', '),
         album: item.track.album.name,
         played_at: item.played_at,
+        image_url: getAlbumImageUrl(item.track.album),
       })),
     };
 
@@ -87,3 +93,4 @@ exports.getLastPlayedSongs = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch recently played songs or Lanyard data' });
   }
 };
+
