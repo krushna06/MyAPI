@@ -24,24 +24,35 @@ const getSpotifyAccessToken = async () => {
   }
 };
 
-exports.getLastPlayedSong = async (req, res) => {
+exports.getLastPlayedSongs = async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
 
-    const spotifyResponse = await axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+    const spotifyResponse = await axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
     });
 
-    const lastPlayed = spotifyResponse.data.items[0];
-    res.json({
-      song: lastPlayed.track.name,
-      artist: lastPlayed.track.artists.map(artist => artist.name).join(', '),
-      album: lastPlayed.track.album.name,
-      played_at: lastPlayed.played_at,
-    });
+    const [latestSong, ...previousSongs] = spotifyResponse.data.items;
+
+    const response = {
+      last_played_song: {
+        song: latestSong.track.name,
+        artist: latestSong.track.artists.map(artist => artist.name).join(', '),
+        album: latestSong.track.album.name,
+        played_at: latestSong.played_at,
+      },
+      previous_songs: previousSongs.map(item => ({
+        song: item.track.name,
+        artist: item.track.artists.map(artist => artist.name).join(', '),
+        album: item.track.album.name,
+        played_at: item.played_at,
+      }))
+    };
+
+    res.json(response);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch last played song' });
+    res.status(500).json({ error: 'Failed to fetch recently played songs' });
   }
 };

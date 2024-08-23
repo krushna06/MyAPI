@@ -1,8 +1,7 @@
 const express = require('express');
+const router = express.Router();
 const spotifyController = require('../controllers/spotifyController');
 
-const router = express.Router();
-
-router.get('/', spotifyController.getLastPlayedSong);
+router.get('/', spotifyController.getLastPlayedSongs);
 
 module.exports = router;
