@@ -1,5 +1,6 @@
 const axios = require('axios');
 require('dotenv').config();
+const { LANYARD_API_URL } = require('../config/constants');
 
 const getSpotifyAccessToken = async () => {
   const authOptions = {
@@ -27,7 +28,7 @@ const getSpotifyAccessToken = async () => {
 const getLanyardData = async () => {
   const lanyardOptions = {
     method: 'GET',
-    url: 'https://api.lanyard.rest/v1/users/853620650592567304',
+    url: LANYARD_API_URL,
   };
 
   try {
