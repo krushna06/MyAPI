@@ -1,8 +1,16 @@
 {
+  "name": "myapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
   "dependencies": {
     "axios": "^1.7.4",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2"
-  }
+  },
+  "author": "n0step"
 }
