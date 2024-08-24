@@ -41,3 +41,11 @@ This is a RESTful API built with Node.js and Express that provides various endpo
 **Method:** `GET`
 
 **Description:** Retrieves a list of blogs, including titles, descriptions, and publication dates.
+
+### Projects
+
+**Endpoint:** `/api/v1/projects`
+
+**Method:** `GET`
+
+**Description:** Retrieves a list of projects, including titles, descriptions, and creation/development dates.
