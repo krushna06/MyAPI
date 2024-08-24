@@ -1,9 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { PORTFOLIO_BASE_URL } = require('../config/constants');
 
 exports.getProjects = async (req, res) => {
   try {
-    const response = await axios.get('https://n0step.xyz/projects');
+    const response = await axios.get(`${PORTFOLIO_BASE_URL}/projects`);
     const html = response.data;
     
     const $ = cheerio.load(html);
@@ -16,13 +17,13 @@ exports.getProjects = async (req, res) => {
       const link = titleElement.attr('href');
       const date = $(element).find('time').text().trim();
       const imageUrl = $(element).find('img').attr('src');
-      
+
       if (titleElement.length > 0) {
         const title = titleElement.text().trim();
         projects.push({
           title,
           description: descriptionElement.text().trim(),
-          link: link ? `https://n0step.xyz${link}` : null,
+          link: link ? `${PORTFOLIO_BASE_URL}${link}` : null,
           date,
           imageUrl
         });

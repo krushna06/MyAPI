@@ -1,9 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { PORTFOLIO_BASE_URL } = require('../config/constants');
 
 exports.getBlogDetails = async (req, res) => {
   try {
-    const response = await axios.get('https://n0step.xyz/blogs');
+    const response = await axios.get(`${PORTFOLIO_BASE_URL}/blogs`);
     const html = response.data;
     
     const $ = cheerio.load(html);
@@ -26,6 +27,7 @@ exports.getBlogDetails = async (req, res) => {
 
     res.json({ blogs });
   } catch (error) {
+    // console.error(error);
     res.status(500).json({ error: 'Failed to fetch blog details' });
   }
 };
